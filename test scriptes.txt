@@ -1,0 +1,68 @@
+today task 
+first we create a project using  WIP
+make a idea of .net core  project where i learn about abstraction using abstrect and interfeace 
+,filtters , middleware,routing,dipendency injection , and Solid proiciples and degine patters 
+
+
+
+later on we improve my linkedin and naukri and resume 
+
+sor naukri
+https://www.youtube.com/watch?v=7W1uChmAUOg
+https://www.youtube.com/watch?v=ND-BvJ4iHnY&t=511s
+
+for linkedin
+https://www.youtube.com/watch?v=dQ6RNltrXro
+
+
+------------
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Controllers'
+
+
+# Controllers
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Controllers'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Controllers\TaskController.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Controllers\UserController.cs'
+
+# Services and subfolders
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Services\Interfaces'
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Services\Implementations'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Services\Interfaces\ITaskService.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Services\Interfaces\IUserService.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Services\Implementations\TaskService.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Services\Implementations\UserService.cs'
+
+# Repositories and subfolders
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Repositories\Interfaces'
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Repositories\Implementations'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Repositories\Interfaces\ITaskRepository.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Repositories\Implementations\TaskRepository.cs'
+
+# Filters
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Filters'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Filters\LogActionFilter.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Filters\ExceptionHandlingFilter.cs'
+
+# Middleware
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Middleware'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Middleware\LoggingMiddleware.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Middleware\ErrorHandlingMiddleware.cs'
+
+# Models
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Models'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Models\Task.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Models\User.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Models\BaseEntity.cs'
+
+# DTOs
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\DTOs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\DTOs\TaskCreateDto.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\DTOs\UserRegisterDto.cs'
+
+# Utilities
+New-Item -ItemType Directory -Force -Path '.\TaskManagementSystem.API\Utilities'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Utilities\TaskFactory.cs'
+
+# Root files
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Program.cs'
+New-Item -ItemType File -Force -Path '.\TaskManagementSystem.API\Startup.cs'

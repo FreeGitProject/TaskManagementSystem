@@ -10,33 +10,33 @@ namespace TaskManagementSystem.API.Services.Implementations;
 
 public class AuthService : IAuthService
 {
-    private static List<User> _users = new(); // Mocked for now
     private readonly IConfiguration _config;
+    private readonly IUserRepository _userRepository;
 
-    public AuthService(IConfiguration config)
+    public AuthService(IConfiguration config, IUserRepository userRepository)
     {
         _config = config;
+        _userRepository = userRepository;
     }
 
-    public string Register(LoginRegisterDto dto)
+    public async Task<string> Register(LoginRegisterDto dto)
     {
-        if (_users.Any(u => u.Username == dto.Username))
-            throw new Exception("User exists");
+        if (await _userRepository.ExistsAsync(dto.Username))
+            throw new Exception("User already exists");
 
         var user = new User
         {
-            Id = _users.Count + 1,
             Username = dto.Username,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
         };
 
-        _users.Add(user);
+        await _userRepository.AddAsync(user);
         return GenerateToken(user);
     }
 
-    public string Login(LoginRegisterDto dto)
+    public async Task<string> Login(LoginRegisterDto dto)
     {
-        var user = _users.FirstOrDefault(u => u.Username == dto.Username);
+        var user = await _userRepository.GetByUsernameAsync(dto.Username);
         if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
             throw new Exception("Invalid credentials");
 
@@ -56,7 +56,7 @@ public class AuthService : IAuthService
 
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(2),
+            expires: DateTime.UtcNow.AddDays(7),
             signingCredentials: creds
         );
 

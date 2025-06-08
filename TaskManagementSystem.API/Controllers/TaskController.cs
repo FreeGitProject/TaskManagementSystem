@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagementSystem.API.Context;
 using TaskManagementSystem.API.DTOs;
@@ -9,9 +10,11 @@ using TaskManagementSystem.API.Strategies;
 public class TaskController : ControllerBase
 {
     private readonly ITaskService _taskService;
-    public TaskController(ITaskService taskService)
+    private readonly IMapper _mapper;
+    public TaskController(ITaskService taskService, IMapper mapper)
     {
         _taskService = taskService;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -29,8 +32,9 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(TaskItem task)
+    public async Task<IActionResult> Create([FromBody] TaskItemDto dto)
     {
+        var task = _mapper.Map<TaskItem>(dto);
         var created = await _taskService.CreateTaskAsync(task);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }

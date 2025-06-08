@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using TaskManagementSystem.API.Repositories.Interfaces;
+using TaskManagementSystem.API.Context;
+using TaskManagementSystem.API.DTOs;
 using TaskManagementSystem.API.Services.Interfaces;
+using TaskManagementSystem.API.Strategies;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -31,5 +33,32 @@ public class TaskController : ControllerBase
     {
         var created = await _taskService.CreateTaskAsync(task);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+    }
+    [HttpPost("create-type")]
+    public IActionResult CreateTypedTask([FromQuery] string type, [FromBody] TaskItemDto dto)
+    {
+        var typedTask = TaskManagementSystem.API.Utilities.TaskFactory.CreateTask(type, dto.Title, dto.Description);
+        var priority = typedTask.CalculatePriority();
+
+        return Ok(new
+        {
+            typedTask.Title,
+            typedTask.Description,
+            Priority = priority,
+            Type = type
+        });
+    }
+    [HttpPost("notify")]
+    public IActionResult NotifyUser([FromQuery] int priority, [FromBody] string message)
+    {
+        var context = new NotificationContext();
+
+        if (priority >= 8)
+            context.SetStrategy(new EmailNotificationStrategy());
+        else
+            context.SetStrategy(new InAppNotificationStrategy());
+
+        context.SendNotification(message);
+        return Ok("Notification sent");
     }
 }

@@ -129,3 +129,65 @@ Real-world skills needed in .NET Web API
 
 step 1 
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
+
+# PowerShell script to create src folder structure with React components and pages
+
+# Root src directory
+New-Item -ItemType Directory -Force -Path '.\src'
+
+# components folder and files
+New-Item -ItemType Directory -Force -Path '.\src\components'
+New-Item -ItemType File -Force -Path '.\src\components\LoginForm.jsx'
+New-Item -ItemType File -Force -Path '.\src\components\RegisterForm.jsx'
+New-Item -ItemType File -Force -Path '.\src\components\TaskList.jsx'
+New-Item -ItemType File -Force -Path '.\src\components\TaskForm.jsx'
+
+# pages folder and files
+New-Item -ItemType Directory -Force -Path '.\src\pages'
+New-Item -ItemType File -Force -Path '.\src\pages\LoginPage.jsx'
+New-Item -ItemType File -Force -Path '.\src\pages\RegisterPage.jsx'
+New-Item -ItemType File -Force -Path '.\src\pages\TaskDashboard.jsx'
+
+# services folder and api.js file
+New-Item -ItemType Directory -Force -Path '.\src\services'
+New-Item -ItemType File -Force -Path '.\src\services\api.js'
+
+# src root files
+New-Item -ItemType File -Force -Path '.\src\App.jsx'
+New-Item -ItemType File -Force -Path '.\src\main.jsx'
+New-Item -ItemType File -Force -Path '.\src\index.jsx'
+
+
+var app = builder.Build();
+
+// Enable CORS before anything else
+app.UseCors("AllowAll");
+
+// Enable Swagger in development
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+// Redirect HTTP to HTTPS
+app.UseHttpsRedirection();
+
+// Custom request logging middleware (must go before routing)
+app.UseMiddleware<RequestLoggingMiddleware>();
+
+// Enable routing
+app.UseRouting(); // 🔹 Must be before auth middlewares
+
+// Enable authentication and authorization
+app.UseAuthentication(); // 🔹 Validate JWT token
+app.UseAuthorization();  // 🔹 Apply [Authorize] rules
+
+// Map controller endpoints
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
+app.Run();
